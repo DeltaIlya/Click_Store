@@ -1,6 +1,0 @@
-PORT=3001
-DB_USER=postgres
-DB_PASSWORD=ваш_пароль
-DB_HOST=localhost
-DB_PORT=5432
-DB_DATABASE=VK_miniApp_shop_DB
