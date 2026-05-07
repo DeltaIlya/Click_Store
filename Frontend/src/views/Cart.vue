@@ -18,89 +18,91 @@
       </div>
     </div>
 
-    <!-- Cart Items -->
-    <div v-if="cartItems.length > 0" class="p-4 space-y-4">
-      <div
-        v-for="item in cartItems"
-        :key="item.id"
-        class="bg-card border border-border rounded-lg p-4 flex gap-4"
-      >
-        <!-- Product Image -->
-        <div class="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-secondary">
-          <img
-            :src="item.image"
-            :alt="item.name"
-            class="w-full h-full object-cover"
-          />
-        </div>
-
-        <!-- Product Info -->
-        <div class="flex-1 flex flex-col justify-between">
-          <div>
-            <h3 class="font-semibold text-foreground">{{ item.name }}</h3>
-            <p class="text-primary font-bold text-lg mt-1">
-              {{ item.price }} руб
-            </p>
+    <!-- Контейнер с товарами -->
+    <div class="cart-scroll-container pb-32">
+      <!-- Предметы корзины -->
+      <div v-if="cartItems.length > 0" class="p-4 space-y-4">
+        <div
+          v-for="item in cartItems"
+          :key="item.id"
+          class="bg-card border border-border rounded-lg p-4 flex gap-4"
+        >
+          <!-- Изображение товаров -->
+          <div class="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-secondary">
+            <img
+              :src="item.image"
+              :alt="item.name"
+              class="w-full h-full object-cover"
+            />
           </div>
 
-          <!-- Quantity and Delete -->
-          <div class="flex items-center justify-between pt-2">
-            <div class="flex items-center gap-2 bg-secondary p-1 rounded-lg">
-              <button
-                @click="updateQuantity(item.id, item.quantity - 1)"
-                class="p-1 hover:bg-background rounded transition-colors"
-              >
-                <Minus class="w-4 h-4 text-foreground" />
-              </button>
-              <span class="w-6 text-center font-semibold text-foreground">
-                {{ item.quantity }}
-              </span>
-              <button
-                @click="updateQuantity(item.id, item.quantity + 1)"
-                class="p-1 hover:bg-background rounded transition-colors"
-              >
-                <Plus class="w-4 h-4 text-foreground" />
-              </button>
-              <div style="margin-bottom: 1rem;"></div>
+          <!-- Информация товаров -->
+          <div class="flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-semibold text-foreground">{{ item.name }}</h3>
+              <p class="text-primary font-bold text-lg mt-1">
+                {{ item.price }} руб
+              </p>
             </div>
 
+            <!-- Кол-во и удаление -->
+            <div class="flex items-center justify-between pt-2">
+              <div class="flex items-center gap-2 bg-secondary p-1 rounded-lg">
+                <button
+                  @click="updateQuantity(item.id, item.quantity - 1)"
+                  class="p-1 hover:bg-background rounded transition-colors"
+                >
+                  <Minus class="w-4 h-4 text-foreground" />
+                </button>
+                <span class="w-6 text-center font-semibold text-foreground">
+                  {{ item.quantity }}
+                </span>
+                <button
+                  @click="updateQuantity(item.id, item.quantity + 1)"
+                  class="p-1 hover:bg-background rounded transition-colors"
+                >
+                  <Plus class="w-4 h-4 text-foreground" />
+                </button>
+                <div style="margin-bottom: 1rem;"></div>
+              </div>
+
+            </div>
           </div>
         </div>
+
+        <div style="margin-bottom: 1rem;"></div>
+
+        <!-- Конечная сумма -->
+        <div class="bg-card border border-border rounded-lg p-4 space-y-3">
+          <span>Конечная сумма: </span>
+          <span class="text-primary text-lg">{{ total}} руб.</span>       
+        </div>
+        <div style="margin-bottom: 1rem;"></div>
       </div>
 
-      <div style="margin-bottom: 1rem;"></div>
-
-      <!-- Order Summary -->
-      <div class="bg-card border border-border rounded-lg p-4 space-y-3">
-        <span>Общая сумма: </span>
-        <span class="text-primary text-lg">{{ total.toFixed(2) }} руб.</span>       
+      <!-- Корзина пуста -->
+      <div v-else class="flex flex-col items-center justify-center py-12 px-4">
+        <div class="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4">
+          <ShoppingCart class="w-8 h-8 text-muted-foreground" />
+        </div>
+        <h2 class="text-xl font-semibold text-foreground mb-2">
+          Ваша корзина пуста
+        </h2>
+        <p class="text-muted-foreground text-center mb-6">
+          Добавьте товаров в свою корзину через меню каталога
+        </p>
       </div>
-      <div style="margin-bottom: 1rem;"></div>
-    </div>
-
-    <!-- Empty Cart -->
-    <div v-else class="flex flex-col items-center justify-center py-12 px-4">
-      <div class="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4">
-        <ShoppingCart class="w-8 h-8 text-muted-foreground" />
+      <!-- Кнопка "Оформить покупку"-->
+      <div v-if="cartItems.length > 0">
+        <button @click="$router.push('/Buy')" class="translate-4 px-8 py-3 rounded-lg font-bold bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all transform hover:scale-105 ">
+          Оформить покупку
+        </button>
       </div>
-      <h2 class="text-xl font-semibold text-foreground mb-2">
-        Ваша корзина пуста
-      </h2>
-      <p class="text-muted-foreground text-center mb-6">
-        Добавьте товаров в свою корзину через меню каталога
-      </p>
     </div>
-
-    <!-- Green Center Button-->
-    <div v-if="cartItems.length > 0" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-40">
-      <button class="px-8 py-3 rounded-lg font-bold bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all transform hover:scale-105">
-        Оформить покупку
-      </button>
-    </div>
-
+ 
     <div style="margin-bottom: 1rem;"></div>
 
-    <!-- Bottom Navigation-->
+    <!-- Кнопки внизу экрана-->
     <div class="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-4 flex gap-3 shadow-lg">
       <RouterLink
         to="/"
@@ -172,4 +174,22 @@ const total = computed(() => {
 </script>
 
 <style scoped>
+.cart-scroll-container {
+  max-height: calc(100vh - 150px);  
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.min-h-screen {
+  width: 100%;
+  max-width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 </style>

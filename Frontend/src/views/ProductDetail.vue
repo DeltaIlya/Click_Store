@@ -2,42 +2,36 @@
   <div class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center">
     <div class="bg-card w-full sm:w-96 sm:rounded-2xl rounded-t-2xl max-h-[80vh] overflow-y-auto flex flex-col">
       
-      <div 
-        class="sticky top-0 bg-card border-b border-border p-4 flex items-center justify-between transition-all duration-300"
-        :class="{ 'bg-opacity-95 backdrop-blur-sm': isScrolled }"
-      >
-        <button @click="goBack" class="p-2 hover:bg-secondary rounded-lg transition-colors">
-          <ArrowLeft class="w-5 h-5 text-foreground" />
-        </button>
-        <div class="w-10" />
-      </div>
+        <div 
+          class="sticky top-0 bg-card border-b border-border p-4 flex items-center justify-between transition-all duration-300"
+        >
+          <button @click="goBack" class="p-2 hover:bg-secondary rounded-lg transition-colors">
+            <ArrowLeft class="w-5 h-5 text-foreground" />
+          </button>
+          <div class="w-10" />
+        </div>
 
-      <div v-if="product" class="flex-1 p-4 space-y-6">
+      <div v-if="product" class="flex-1 p-4 space-y-6 product-scroll">
         <div class="w-full rounded-lg overflow-hidden bg-secondary h-64 flex items-center justify-center">
           <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
         </div>
 
         <!-- Информация продукта -->
-        <div 
-          class="space-y-2 transition-all duration-500"
-          :class="{ 'opacity-0 translate-y-[-20px]': !isTitleVisible }"
-        >
-          <div class="flex items-start justify-between">
-            <h1 class="text-2xl font-bold text-foreground">
-              {{ product.name }}
-            </h1>
-          </div>
-          <div class="flex items-baseline gap-2 pt-2">
-            <span class="text-3xl font-bold text-primary">
-              {{ product.price }} руб.
-            </span>
-          </div>
-        </div>
+      <div class="flex items-start justify-between">
+        <h1 class="text-2xl font-bold text-foreground">
+          {{ product.name }}
+        </h1>
+      </div>
+      <div class="flex items-baseline gap-2 pt-2">
+        <span class="text-3xl font-bold text-primary">
+          {{ product.price }} руб.
+        </span>
+      </div>
 
         <!-- Описание -->
         <div class="space-y-2">
           <p class="text-sm text-muted-foreground leading-relaxed">
-            {{ product.description.toWellFormed() }} 
+            {{ product.description }} 
           </p>
           <div style="margin-bottom: 2rem;"></div>
         </div>
@@ -84,8 +78,9 @@
         </button>
         <RouterLink
           to="/"
-          class="w-full px-4 py-2 rounded-lg font-semibold border border-border text-foreground hover:bg-secondary transition-colors text-center block"
+          class="w-full px-4 py-2 rounded-lg font-semibold border border-border text-foreground hover:bg-secondary transition-colors text-center block transform hover:scale-105 flex items-center justify-center gap-2"
         >
+          <LayoutGrid class="w-5 h-5" />
           Обратно в каталог
         </RouterLink>
       </div>
@@ -96,7 +91,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { RouterLink, useRouter, useRoute } from 'vue-router'
-import { ArrowLeft, ShoppingCart, Minus, Plus } from 'lucide-vue-next'
+import { ArrowLeft, ShoppingCart, Minus, Plus, LayoutGrid} from 'lucide-vue-next'
 
 interface Product {
   id: number
@@ -195,14 +190,14 @@ const handleScroll = (event: Event) => {
 }
 
 onMounted(() => {
-  const scrollContainer = document.querySelector('.overflow-y-auto')
+  const scrollContainer = document.querySelector('.product-scroll')
   if (scrollContainer) {
     scrollContainer.addEventListener('scroll', handleScroll)
   }
 })
 
 onUnmounted(() => {
-  const scrollContainer = document.querySelector('.overflow-y-auto')
+  const scrollContainer = document.querySelector('.product-scroll')
   if (scrollContainer) {
     scrollContainer.removeEventListener('scroll', handleScroll)
   }
@@ -234,4 +229,11 @@ const addToCart = () => {
 </script>
 
 <style scoped>
+.product-scroll {
+  max-height: calc(100vh - 140px);  
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 </style>

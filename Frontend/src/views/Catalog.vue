@@ -4,7 +4,7 @@
     <div class="sticky top-0 z-40 bg-card border-b border-border shadow-sm">
       <div class="p-4 space-y-4">
         <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-bold text-foreground lobster-font">Click Store</h1>
+          <h1 class="text-white text-2xl font-bold text-foreground lobster-font">Click Store</h1>
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2Fa3c474ad0894486f9566ed74bbf42ce1%2Fd433de2adcc546cba35b820dd75dccac?format=webp&width=800&height=1200"
             alt="Logo"
@@ -117,7 +117,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { Search, ChevronLeft, ChevronRight, ShoppingCart, LayoutGrid } from 'lucide-vue-next'
+import { Search, ChevronLeft, ChevronRight, ShoppingCart, LayoutGrid} from 'lucide-vue-next'
 
 interface Product {
   id: number
@@ -221,4 +221,20 @@ const scrollCategories = (direction: 'left' | 'right') => {
 </script>
 
 <style scoped>
+
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+.lobster-font {
+  font-family: 'Lobster', cursive;
+}
+
+.min-h-screen {
+  width: 100%;
+  max-width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 </style>

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 @layer base {
   :root {
@@ -28,13 +27,4 @@
     background-color: var(--background);
     color: var(--foreground);
   }
-}
-
-/* Скрыть скроллбар для категорий */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
 }
