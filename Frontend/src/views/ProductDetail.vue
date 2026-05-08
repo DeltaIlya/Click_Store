@@ -11,7 +11,7 @@
           <div class="w-10" />
         </div>
 
-      <div v-if="product" class="flex-1 p-4 space-y-6 product-scroll">
+      <div v-if="product" class="flex-1 p-4 space-y-6 scroll-poll">
         <div class="w-full rounded-lg overflow-hidden bg-secondary h-64 flex items-center justify-center">
           <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
         </div>
@@ -76,6 +76,7 @@
           <ShoppingCart class="w-5 h-5" />
           Добавить в корзину
         </button>
+        <div class="h-4"></div>
         <RouterLink
           to="/"
           class="w-full px-4 py-2 rounded-lg font-semibold border border-border text-foreground hover:bg-secondary transition-colors text-center block transform hover:scale-105 flex items-center justify-center gap-2"
@@ -83,6 +84,7 @@
           <LayoutGrid class="w-5 h-5" />
           Обратно в каталог
         </RouterLink>
+        <div class="h-2"></div>
       </div>
     </div>
   </div>
@@ -172,35 +174,11 @@ const PRODUCTS: Product[] = [
 const router = useRouter()
 const route = useRoute()
 const quantity = ref(1)
-const isScrolled = ref(false)
-const isTitleVisible = ref(true)
 
 const product = computed<Product | null>(() => {
   const id = parseInt(route.params.id as string)
   const found = PRODUCTS.find(p => p.id === id)
   return found || null
-})
-
-const handleScroll = (event: Event) => {
-  const target = event.target as HTMLElement
-  isScrolled.value = target.scrollTop > 50
-  
-  // Текст исчезает, когда проскроллили больше 100px
-  isTitleVisible.value = target.scrollTop < 100
-}
-
-onMounted(() => {
-  const scrollContainer = document.querySelector('.product-scroll')
-  if (scrollContainer) {
-    scrollContainer.addEventListener('scroll', handleScroll)
-  }
-})
-
-onUnmounted(() => {
-  const scrollContainer = document.querySelector('.product-scroll')
-  if (scrollContainer) {
-    scrollContainer.removeEventListener('scroll', handleScroll)
-  }
 })
 
 const goBack = () => {
@@ -229,8 +207,7 @@ const addToCart = () => {
 </script>
 
 <style scoped>
-.product-scroll {
-  max-height: calc(100vh - 140px);  
+.scroll-poll {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;

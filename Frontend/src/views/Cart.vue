@@ -19,7 +19,7 @@
     </div>
 
     <!-- Контейнер с товарами -->
-    <div class="cart-scroll-container pb-32">
+    <div class="scroll-poll pb-32">
       <!-- Предметы корзины -->
       <div v-if="cartItems.length > 0" class="p-4 space-y-4">
         <div
@@ -127,7 +127,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { ShoppingCart, Trash2, Plus, Minus, ArrowLeft, LayoutGrid } from 'lucide-vue-next'
+import { ShoppingCart, Plus, Minus, ArrowLeft, LayoutGrid } from 'lucide-vue-next'
 
 interface CartItem {
   id: number
@@ -174,7 +174,7 @@ const total = computed(() => {
 </script>
 
 <style scoped>
-.cart-scroll-container {
+.scroll-poll {
   max-height: calc(100vh - 150px);  
   overflow-y: auto;
   overflow-x: hidden;

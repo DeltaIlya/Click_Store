@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-background pb-24">
-    <!-- Header -->
-    <div class="sticky top-0 z-40 bg-card border-b border-border shadow-sm">
+  <div class="min-h-screen h-screen bg-background flex flex-col">
+    <!-- Header (фиксированный) -->
+    <div class="flex-shrink-0 z-40 bg-card border-b border-border shadow-sm">
       <div class="p-4 space-y-4">
         <div class="flex items-center justify-between">
           <h1 class="text-white text-2xl font-bold text-foreground lobster-font">Click Store</h1>
@@ -12,7 +12,7 @@
           />
         </div>
 
-        <!-- Search Bar -->
+        <!-- Поиск -->
         <div class="relative">
           <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <input
@@ -24,16 +24,9 @@
         </div>
       </div>
 
-      <!-- Category Slider -->
+      <!-- Категории -->
       <div class="relative px-4 pb-4 bg-card">
         <div class="flex items-center gap-2">
-          <button
-            @click="scrollCategories('left')"
-            class="flex-shrink-0 p-2 hover:bg-secondary rounded-lg transition-colors"
-          >
-            <ChevronLeft class="w-5 h-5 text-primary" />
-          </button>
-
           <div
             ref="scrollRef"
             class="flex-1 overflow-x-auto scrollbar-hide flex gap-2 scroll-smooth"
@@ -52,50 +45,48 @@
               {{ category }}
             </button>
           </div>
-
-          <button
-            @click="scrollCategories('right')"
-            class="flex-shrink-0 p-2 hover:bg-secondary rounded-lg transition-colors"
-          >
-            <ChevronRight class="w-5 h-5 text-primary" />
-          </button>
         </div>
       </div>
     </div>
 
-    <!-- Products Grid -->
-    <div class="p-4">
-      <div v-if="filteredProducts.length > 0" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-        <RouterLink
-          v-for="product in filteredProducts"
-          :key="product.id"
-          :to="{ name: 'ProductDetail', params: { id: product.id } }"
-          class="group cursor-pointer rounded-lg border border-border overflow-hidden hover:shadow-md transition-shadow bg-card h-full flex flex-col"
-        >
-          <div class="relative w-full pt-full overflow-hidden bg-secondary h-32 sm:h-40">
-            <img
-              :src="product.image"
-              :alt="product.name"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-          <div class="p-3 flex-1 flex flex-col justify-between">
-            <h3 class="font-semibold text-sm sm:text-base text-foreground truncate">
-              {{ product.name }}
-            </h3>
-            <p class="text-primary font-bold text-base sm:text-lg">
-              {{ product.price }} руб
-            </p>
-          </div>
-        </RouterLink>
-      </div>
-      <div v-else class="text-center py-12">
-        <p class="text-muted-foreground">Нет такого продукта</p>
+
+    <!-- Контейнер с продуктами-->
+    <div 
+      class="flex-1 scroll-poll relative"
+    >
+      <div class="p-4">
+        <div v-if="filteredProducts.length > 0" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+          <RouterLink
+            v-for="product in filteredProducts"
+            :key="product.id"
+            :to="{ name: 'ProductDetail', params: { id: product.id } }"
+            class="group cursor-pointer rounded-lg border border-border overflow-hidden hover:shadow-md transition-shadow bg-card h-full flex flex-col"
+          >
+            <div class="relative w-full pt-full overflow-hidden bg-secondary h-32 sm:h-40">
+              <img
+                :src="product.image"
+                :alt="product.name"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <h3 class="font-semibold text-sm sm:text-base text-foreground truncate">
+                {{ product.name }}
+              </h3>
+              <p class="text-primary font-bold text-base sm:text-lg">
+                {{ product.price }} руб
+              </p>
+            </div>
+          </RouterLink>
+        </div>
+        <div v-else class="text-center py-12">
+          <p class="text-muted-foreground">Нет такого продукта</p>
+        </div>
       </div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-4 flex gap-3 shadow-lg">
+    <!-- Кнопки снизу -->
+    <div class="flex-shrink-0 bg-card border-t border-border p-4 flex gap-3 shadow-lg">
       <RouterLink
         to="/"
         class="flex-1 px-4 py-2 rounded-lg font-semibold border border-border text-foreground hover:bg-secondary transition-colors flex items-center justify-center gap-2"
@@ -117,7 +108,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { Search, ChevronLeft, ChevronRight, ShoppingCart, LayoutGrid} from 'lucide-vue-next'
+import { Search, ShoppingCart, LayoutGrid} from 'lucide-vue-next'
 
 interface Product {
   id: number
@@ -161,7 +152,7 @@ const PRODUCTS: Product[] = [
     name: 'Механическая клавиатура',
     price: 20000,
     image: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=300&h=300&fit=crop',
-    category: '"Электроника"',
+    category: 'Электроника',
   },
   {
     id: 6,
@@ -196,7 +187,6 @@ const CATEGORIES = [
 
 const searchQuery = ref('')
 const selectedCategory = ref('Все')
-const scrollRef = ref<HTMLDivElement | null>(null)
 
 const filteredProducts = computed(() => {
   return PRODUCTS.filter((product) => {
@@ -209,22 +199,21 @@ const filteredProducts = computed(() => {
   })
 })
 
-const scrollCategories = (direction: 'left' | 'right') => {
-  if (scrollRef.value) {
-    const scrollAmount = 150
-    scrollRef.value.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    })
-  }
-}
 </script>
 
 <style scoped>
-
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 .lobster-font {
   font-family: 'Lobster', cursive;
+}
+
+.scroll-poll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
 }
 
 .min-h-screen {
