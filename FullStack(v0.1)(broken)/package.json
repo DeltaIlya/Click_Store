@@ -1,0 +1,21 @@
+{
+  "name": "fullstack(v0.1)",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "dev": "concurrently \"cd shop-backend(v1.2) && npm run dev\" \"cd Frontend(v0.4)/Click_Store-Frontend/Frontend && npm run dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "vitest": "^4.1.6"
+  }
+}
