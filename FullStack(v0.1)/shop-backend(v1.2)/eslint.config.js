@@ -1,18 +1,33 @@
-import js from "@eslint/js";
-import globals from "globals";
+// eslint.config.js
+import globals from 'globals';
 
 export default [
-  js.configs.recommended,
   {
     languageOptions: {
-      // Это сообщает линтеру, что мы используем глобальные переменные Node.js
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
-        ...globals.node, 
-      },
+        ...globals.node,
+        // Глобальные функции Jest
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        jest: 'readonly',
+        vi: 'readonly'
+      }
     },
     rules: {
-      // Здесь можно настроить правила, например, сделать console просто предупреждением:
-      "no-console": "off", 
-    },
+      // Ваши правила (можно добавить при необходимости)
+      'no-unused-vars': 'warn'
+    }
   },
+  // Игнорировать папку с тестами, если нужно
+  {
+    ignores: ['node_modules/**']
+  }
 ];
