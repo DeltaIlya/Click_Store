@@ -1,4 +1,3 @@
-// eslint.config.js
 import globals from 'globals';
 
 export default [
@@ -8,7 +7,6 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.node,
-        // Глобальные функции Jest
         describe: 'readonly',
         it: 'readonly',
         test: 'readonly',
@@ -17,16 +15,13 @@ export default [
         afterEach: 'readonly',
         beforeAll: 'readonly',
         afterAll: 'readonly',
-        jest: 'readonly',
-        vi: 'readonly'
+        jest: 'readonly'
       }
     },
     rules: {
-      // Ваши правила (можно добавить при необходимости)
       'no-unused-vars': 'warn'
     }
   },
-  // Игнорировать папку с тестами, если нужно
   {
     ignores: ['node_modules/**']
   }
