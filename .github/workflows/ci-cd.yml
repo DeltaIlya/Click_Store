@@ -58,9 +58,9 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd ~/Click_Store/FullStack\(v0.1\)/shop-backend\(v1.2\)
-            git pull
-            npm ci --production
-            pm2 restart shop-backend || pm2 start server.js --name shop-backend
+            # git pull
+            # npm ci --production
+            # pm2 restart shop-backend || pm2 start server.js --name shop-backend
       
       - name: Deploy Frontend
         uses: appleboy/ssh-action@v1.0.3
@@ -71,7 +71,7 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd ~/Click_Store/FullStack\(v0.1\)/Frontend\(v0.4\)/Click_Store-Frontend/Frontend
-            git pull
-            npm ci
-            npm run build
-            sudo cp -r dist/* /var/www/html/
+            # git pull
+            # npm ci
+            # npm run build
+            # sudo cp -r dist/* /var/www/html/
