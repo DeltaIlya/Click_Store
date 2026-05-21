@@ -63,13 +63,10 @@ jobs:
 
             cd "$BACKEND_DIR"
 
-            # Обновляем код
             git pull origin main
 
-            # Установка зависимостей (только production)
             npm ci --production
 
-            # Перезапуск через PM2
             if pm2 list | grep -q "shop-backend"; then
               pm2 restart shop-backend
             else
@@ -78,36 +75,36 @@ jobs:
 
             pm2 save
 
-      # ---------- Deploy Frontend ----------
-      - name: Deploy Frontend
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VM_IP }}
-          username: ${{ secrets.VM_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: |
-            set -e
+      # # ---------- Deploy Frontend ----------
+      # - name: Deploy Frontend
+      #   uses: appleboy/ssh-action@v1.0.3
+      #   with:
+      #     host: ${{ secrets.VM_IP }}
+      #     username: ${{ secrets.VM_USER }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     passphrase: ${{ secrets.SSH_PASSPHRASE }}
+      #     script: |
+      #       set -e
 
-            FRONTEND_DIR="$HOME/Click_Store/FullStack(v0.1)/Frontend(v0.4)/Click_Store-Frontend/Frontend"
-            DIST_DIR="$FRONTEND_DIR/dist"
-            WEB_DIR="/var/www/html"
+      #       FRONTEND_DIR="$HOME/Click_Store/FullStack(v0.1)/Frontend(v0.4)/Click_Store-Frontend/Frontend"
+      #       DIST_DIR="$FRONTEND_DIR/dist"
+      #       WEB_DIR="/var/www/html"
 
-            cd "$FRONTEND_DIR"
+      #       cd "$FRONTEND_DIR"
 
-            # Обновляем код
-            git pull origin main
+      #       # Обновляем код
+      #       git pull origin main
 
-            # Установка зависимостей
-            npm ci
+      #       # Установка зависимостей
+      #       npm ci
 
-            # Сборка
-            npm run build
+      #       # Сборка
+      #       npm run build
 
-            # Копирование билда в веб-сервер
-            sudo mkdir -p "$WEB_DIR"
-            sudo rm -rf "$WEB_DIR"/*
-            sudo cp -r "$DIST_DIR"/* "$WEB_DIR/"
+      #       # Копирование билда в веб-сервер
+      #       sudo mkdir -p "$WEB_DIR"
+      #       sudo rm -rf "$WEB_DIR"/*
+      #       sudo cp -r "$DIST_DIR"/* "$WEB_DIR/"
 
-            # Очистка кэша (опционально, если nginx/apche кэширует)
-            sudo systemctl reload nginx || true
+      #       # Очистка кэша (опционально, если nginx/apche кэширует)
+      #       sudo systemctl reload nginx || true
