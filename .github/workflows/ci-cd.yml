@@ -65,7 +65,7 @@ jobs:
           VM_IP: ${{ secrets.VM_IP }}
         run: |
           ssh $VM_USER@$VM_IP "
-            cd ~/projects/Click_Store/FullStack\(v0.1\)/shop-frontend\(v1.0\)
+            cd ~/projects/Click_Store/FullStack\(v0.1\)/Frontend\(v0.4\)/Click_Store-Frontend/Frontend
             git pull
             npm ci
             npm run build
