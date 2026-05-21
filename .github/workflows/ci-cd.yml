@@ -46,26 +46,31 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Deploy Backend to Yandex Cloud
+      
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
+      
+      - name: Deploy Backend
         env:
           VM_USER: ${{ secrets.VM_USER }}
           VM_IP: ${{ secrets.VM_IP }}
         run: |
           ssh $VM_USER@$VM_IP "
-            cd ~/projects/Click_Store/FullStack\(v0.1\)/shop-backend\(v1.2\)
+            cd ~/Click_Store/FullStack\(v0.1\)/shop-backend\(v1.2\)
             git pull
             npm ci --production
             pm2 restart shop-backend || pm2 start server.js --name shop-backend
           "
       
-      - name: Deploy Frontend to Yandex Cloud
+      - name: Deploy Frontend
         env:
           VM_USER: ${{ secrets.VM_USER }}
           VM_IP: ${{ secrets.VM_IP }}
         run: |
           ssh $VM_USER@$VM_IP "
-            cd ~/projects/Click_Store/FullStack\(v0.1\)/Frontend\(v0.4\)/Click_Store-Frontend/Frontend
+            cd ~/Click_Store/FullStack\(v0.1\)/Frontend\(v0.4\)/Click_Store-Frontend/Frontend
             git pull
             npm ci
             npm run build
