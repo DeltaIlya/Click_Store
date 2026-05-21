@@ -70,8 +70,21 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            # Проверить версию Node.js
+            node --version
+            
             cd ~/Click_Store/FullStack\(v0.1\)/Frontend\(v0.4\)/Click_Store-Frontend/Frontend
             git pull
+            
+            # Очистить кэш npm (на всякий случай)
+            npm cache clean --force
+            
+            # Установить зависимости
             npm ci
+            
+            # Собрать проект
             npm run build
+            
+            # Очистить старые файлы и скопировать новые
+            sudo rm -rf /var/www/html/*
             sudo cp -r dist/* /var/www/html/
