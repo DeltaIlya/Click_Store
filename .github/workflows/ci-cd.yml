@@ -5,6 +5,7 @@ on:
     branches: [ main, test, backend ]
   pull_request:
     branches: [ main ]
+    
 jobs:
   ci:
     name: "CI: Lint, Test & Build"
