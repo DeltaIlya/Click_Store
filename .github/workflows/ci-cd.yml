@@ -25,10 +25,13 @@ jobs:
           cache-dependency-path: ./FullStack(v0.1)/shop-backend(v1.2)/package-lock.json
       
       - name: Install dependencies
-        run: npm install
-      
+        run: npm ci
+
+      - name: Fix permissions
+        run: chmod +x node_modules/.bin/eslint
+
       - name: Run linter
-        run: npx eslint .
+        run: npm run lint
       
       - name: Run unit tests
         run: npm test
