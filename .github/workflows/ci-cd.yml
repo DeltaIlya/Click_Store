@@ -38,3 +38,36 @@ jobs:
       
       # - name: Build project
       #   run: npm run Build
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy Backend to Yandex Cloud
+        env:
+          VM_USER: ${{ secrets.VM_USER }}
+          VM_IP: ${{ secrets.VM_IP }}
+        run: |
+          ssh $VM_USER@$VM_IP "
+            cd ~/projects/Click_Store/FullStack\(v0.1\)/shop-backend\(v1.2\)
+            git pull
+            npm ci --production
+            pm2 restart shop-backend || pm2 start server.js --name shop-backend
+          "
+      
+      - name: Deploy Frontend to Yandex Cloud
+        env:
+          VM_USER: ${{ secrets.VM_USER }}
+          VM_IP: ${{ secrets.VM_IP }}
+        run: |
+          ssh $VM_USER@$VM_IP "
+            cd ~/projects/Click_Store/FullStack\(v0.1\)/Frontend\(v0.4\)/Click_Store-Frontend/Frontend
+            git pull
+            npm ci
+            npm run build
+            sudo cp -r dist/* /var/www/html/
+          "
