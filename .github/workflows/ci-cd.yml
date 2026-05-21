@@ -53,19 +53,16 @@ jobs:
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          # Приватный ключ для подключения
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          # Публичный ключ (опционально, для некоторых операций)
-          echo "${{ secrets.AUTHORIZED_KEYS }}" > ~/.ssh/id_rsa.pub
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
-      
+
       - name: Deploy Backend
         env:
           VM_USER: ${{ secrets.VM_USER }}
           VM_IP: ${{ secrets.VM_IP }}
         run: |
-          ssh $VM_USER@$VM_IP "
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes $VM_USER@$VM_IP "
             cd ~/Click_Store/FullStack\(v0.1\)/shop-backend\(v1.2\)
             git pull
             npm ci --production
