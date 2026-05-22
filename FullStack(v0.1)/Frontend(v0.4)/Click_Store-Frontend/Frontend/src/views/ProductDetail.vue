@@ -1,6 +1,6 @@
 <template>
-  <div class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center">
-    <div class="bg-card w-full sm:w-96 sm:rounded-2xl rounded-t-2xl max-h-[80vh] overflow-y-auto flex flex-col">
+  <div class="fixed inset-0 bg-black/50 z-50 flex sm:items-center justify-center">
+    <div class="bg-card w-full sm:w-96 sm:rounded-2xl rounded-t-2xl max-h-[100vh] overflow-y-auto flex flex-col">
       
       <div class="sticky top-0 bg-card border-b border-border p-4 flex items-center justify-between transition-all duration-300">
         <button @click="goBack" class="p-2 hover:bg-secondary rounded-lg transition-colors">
