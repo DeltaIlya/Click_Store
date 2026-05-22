@@ -17,10 +17,12 @@
     "vue-router": "^5.0.6",
     "vue-tg": "^0.10.0"
   },
+  
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.12.0",
+    "@types/babel__core": "^7.20.5",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vitejs/plugin-vue-jsx": "^5.1.5",
     "@vue/tsconfig": "^0.9.1",
