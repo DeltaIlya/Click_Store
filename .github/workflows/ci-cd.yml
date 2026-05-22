@@ -86,5 +86,6 @@ jobs:
             npm run build
             
             # Очистить старые файлы и скопировать новые
+            sudo mkdir -p /var/www/html # если этого файла не было
             sudo rm -rf /var/www/html/*
             sudo cp -r dist/* /var/www/html/
